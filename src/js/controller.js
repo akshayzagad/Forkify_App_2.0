@@ -1,4 +1,3 @@
-
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import * as model from "./model.js";
@@ -6,6 +5,7 @@ import recipeView from "./views/recipeView.js";
 import searchView from "./views/searchView.js";
 import resultView from "./views/resultView.js";
 import paginationView from "./views/paginationView.js";
+import bookmarksView from "./views/bookmarksView.js";
 
 const recipeContainer = document.querySelector(".recipe");
 
@@ -27,6 +27,9 @@ const controlRecipe = async function () {
 
     /* Update Result View to mark selected search result */
     resultView.update(model.getSearchResultsPage());
+
+    /* Update Bookmark when we click any recipe in bookmark View */
+    bookmarksView.update(model.state.bookmarks);
 
     /* Here we get data from model by object state which is initiallize above code */
     recipeView.render(model.state.recipe);
@@ -86,6 +89,21 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 }
 
+const controlAddBookmark = function () {
+  // Add or Delete Bookmark
+  if (!model.state.recipe.bookmarked) {
+    model.addBookmark(model.state.recipe);
+  } else {
+    model.deleteBookmark(model.state.recipe.id);
+  }
+
+  // Update Recipe View In which we pass the model state recipe bookmarked property
+  recipeView.update(model.state.recipe);
+
+  // Render Bookmark
+  bookmarksView.render(model.state.bookmarks);
+}
+
 /**
  * Initializes the application by setting up event handlers.
  * 
@@ -98,6 +116,7 @@ function init() {
   /** Subskriber Function :- calling addHandlerRender function in recipeView */
   recipeView.addHandlerRender(controlRecipe);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandleraddBookmarked(controlAddBookmark);
   searchView.addHandlerSearch(ControlSearchResults);
   paginationView.addHandlerClick(ControlPagination);
 

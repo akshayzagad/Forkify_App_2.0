@@ -19,9 +19,18 @@ class RecipeView extends View {
     this._parentElement.addEventListener("click", function (e) {
       const btn = e.target.closest(".btn--tiny");
       if (!btn) return;
-      console.log(btn);
+      // console.log(btn);
       const updateTo = +btn.dataset.updateTo;
         handler(updateTo); 
+    });
+  }
+
+  addHandleraddBookmarked(handler){
+    this._parentElement.addEventListener("click", function (e) {
+      const btn = e.target.closest(".btn--bookmark");
+      if (!btn) return;
+      handler();
+      console.log(btn);
     });
   }
 
@@ -78,16 +87,16 @@ class RecipeView extends View {
               <use href="${icons}#icon-user"></use>
             </svg>
           </div>
-          <button class="btn--round">
+          <button class="btn--round btn--bookmark">
             <svg class="">
-              <use href="${icons}#icon-bookmark-fill"></use>
+              <use href="${icons}#icon-bookmark${this.data.bookmarked ? '-fill' : ''}"></use>
             </svg>
           </button>
         </div>
 
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
-          
+        
           <ul class="recipe__ingredient-list">
           ${this.data.ingredients
         .map((ing) => this._genrateMarkupIngreident(ing))

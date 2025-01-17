@@ -48,7 +48,9 @@ export const state = {
         results: [],
         page: 1,
         resultsPerPage: RES_PER_PAGE,
-    }
+    },
+    bookmarks : [],
+    // bookmarked : false,
 };
 
 export const loadRecipe = async function (id) {
@@ -75,7 +77,14 @@ export const loadRecipe = async function (id) {
             title: recipe.title,
             ingredients: recipe.ingredients,
         };
-        // console.log(state.recipe.servings);
+        // console.log(state.recipe);
+
+        if (state.bookmarks.some(bookmark => bookmark.id === id))
+            state.recipe.bookmarked = true;
+         else
+            state.recipe.bookmarked = false;
+    
+
     } catch (err) {
         // console.error(`${err} It is a error`);
         throw err;
@@ -107,9 +116,12 @@ export const loadSearchResult = async function (query) {
                 title: recipe.title,
             }
         });
-        console.log(state.searchs.results);
+        // console.log(state.searchs.results);
+        // Here we reset the search page when we hit the api second time with new recipe
+        state.searchs.page = 1;
 
-    } catch (error) {
+    } 
+    catch (error) {
         console.error(error);
     }
 }
@@ -150,5 +162,26 @@ export const updateServings = function (newServings) {
 
     state.recipe.servings = newServings;
 };
+
+export const addBookmark = function(recipe){
  
+    // Add recipe as a Bookmark
+    state.bookmarks.push(recipe);
+    console.log(state.bookmarks);
+    
+    // Mark current recipe as bookmark
+    if (recipe.id === state.recipe.id) {
+        state.recipe.bookmarked = true;
+    }
+}
+ 
+export const deleteBookmark = function(id) {
+    const index = state.bookmarks.findIndex(bookmark => bookmark.id === id);
+    if (index !== -1) state.bookmarks.splice(index, 1);
+
+    // Mark current recipe as not bookmarked
+    if (id === state.recipe.id) {
+        state.recipe.bookmarked = false;
+    }
+}
 

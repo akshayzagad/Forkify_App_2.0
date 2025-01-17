@@ -1,14 +1,20 @@
 import icons from "url:../../img/icons.svg";
 
 export default class View {
-  render(data) {
+  render(data , render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.handlingError();
 
     this.data = data;
+
     const markup = this._genrateMarkup();
+
+    if (!render) return markup;
+
     this._clear();
+
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    
     console.log(data);
   }
 
@@ -34,13 +40,12 @@ export default class View {
     const newDom = document.createRange().createContextualFragment(newMarkup);
     const newElements = Array.from(newDom.querySelectorAll("*"));
     const currentElements = Array.from(this._parentElement.querySelectorAll("*"));
-    console.log(newElements);
-    console.log(currentElements);
-
-  
+    // console.log(newElements);
+    // console.log(currentElements);
+ 
     newElements.forEach((newElements, i) => {
       const curEl = currentElements[i];
-      console.log(curEl, newElements.isEqualNode(curEl));
+      // console.log(curEl, newElements.isEqualNode(curEl));
 
       // Update Or Change Element Text
      /** The firstChild property returns the first child node of the specified element. The nodeValue property    returns or sets the value of a node. For text nodes, nodeValue returns the text content.
@@ -50,7 +55,7 @@ export default class View {
      */
       if (!newElements.isEqualNode(curEl) && newElements.firstChild?.nodeValue.trim() != '') {
         curEl.textContent = newElements.textContent;
-        console.log('AAA', newElements.firstChild.nodeValue.trim());
+        // console.log('AAA', newElements.firstChild.nodeValue.trim());
       }
       
       // Update or Change Element Attribute
