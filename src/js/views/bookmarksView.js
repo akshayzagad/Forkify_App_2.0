@@ -9,7 +9,11 @@ class BookmarksView extends View {
     _parentElement = document.querySelector(".bookmarks__list"); 
 
     _errorMessage = "No recipes yet bookmarked. Please select recipe to bookmarked !";
-    
+   
+   addHandlerRender(handler) {
+      window.addEventListener('load', handler);
+   }
+
   /**
    * Generates the markup for the results view.
    * 
@@ -21,6 +25,7 @@ class BookmarksView extends View {
    _genrateMarkup() {
       return this.data.map(bookmarks => previewView.render(bookmarks,false)).join('');
    }
+
    
 }
 
