@@ -22,7 +22,7 @@ const controlRecipe = async function () {
 
     /* Get import inisilize empty object in controller to use in markup */
     let { recipe } = model.state;
-    console.log(recipe);
+    // console.log(recipe);
 
     /*  Rendering spinner when load the recipe */
     recipeView.renderSpinner();
@@ -114,18 +114,33 @@ const controlBookMark = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
-    // console.log(newRecipe);
+    // Show loading spinner
+    addRecipeView.renderSpinner();
 
     // Upload the new recipe data
     await model.uploadRecipe(newRecipe);
+    console.log(model.state.recipe);
 
     // Render recipe
-    // console.log(model.state.recipe);
     recipeView.render(model.state.recipe);
-    
+
+    // Success message
+    addRecipeView.renderMessage();
+
+    // Render bookmark view
+    bookmarksView.render(model.state.bookmarks);
+
+    // Change ID in URL
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
+    // Close form window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
+
   } catch (err) {
-    console.error(err);
-    addRecipeView.handlingError(err);
+    console.error('💥', err);
+    addRecipeView.renderError(err.message);
   }
 }
 
