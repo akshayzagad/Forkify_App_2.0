@@ -1,7 +1,14 @@
 import icons from "url:../../img/icons.svg";
 
 export default class View {
-  render(data , render = true) {
+  /**
+   * Renders the provided data to the DOM.
+   * 
+   * @param {Object|Array} data - The data to render.
+   * @param {boolean} [render=true] - Whether to render the data or return the markup.
+   * @returns {string|undefined} The generated markup if render is false.
+   */
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
@@ -12,10 +19,7 @@ export default class View {
     if (!render) return markup;
 
     this._clear();
-
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    
-    // console.log(data);
   }
 
   /**
@@ -23,15 +27,6 @@ export default class View {
    * 
    * @param {Object} data - The data to update the view with.
    * @this {Object} - The instance of the view class.
-   * 
-   * @description
-   * This method updates the DOM elements by comparing the new markup generated from the provided data
-   * with the current elements in the parent element. It updates the text content and attributes of the 
-   * elements if they have changed.
-   * 
-   * @example
-   * // Assuming `view` is an instance of the View class
-   * view.update(newData);
    */
   update(data) {
     this.data = data;
@@ -40,39 +35,30 @@ export default class View {
     const newDom = document.createRange().createContextualFragment(newMarkup);
     const newElements = Array.from(newDom.querySelectorAll("*"));
     const currentElements = Array.from(this._parentElement.querySelectorAll("*"));
-    // console.log(newElements);
-    // console.log(currentElements);
- 
+
     newElements.forEach((newElements, i) => {
       const curEl = currentElements[i];
-      // console.log(curEl, newElements.isEqualNode(curEl));
 
-      // Update Or Change Element Text
-     /** The firstChild property returns the first child node of the specified element. The nodeValue property    returns or sets the value of a node. For text nodes, nodeValue returns the text content.
-     * newElements.firstChild returns the first child node of the   newElements element.
-     * newElements.firstChild.nodeValue returns the text content of that first child node.
-     * trim() removes whitespace from both ends of the string.
-     */
       if (!newElements.isEqualNode(curEl) && newElements.firstChild?.nodeValue.trim() != '') {
         curEl.textContent = newElements.textContent;
-        // console.log('AAA', newElements.firstChild.nodeValue.trim());
       }
-      
-      // Update or Change Element Attribute
-      /** Below code is intended to update the attributes of the current element (curEl) with the attributes from the new element (newElements). However, newElements is a collection of elements, not a single element, so you need to iterate over each element in newElements and currentElements to update their attributes.
-      */
+
       if (!newElements.isEqualNode(curEl)) {
-        // console.log(newElements.attributes);
-        // console.log(Array.from(newElements.attributes));
-        Array.from(newElements.attributes).forEach(attributes => curEl.setAttribute(attributes.name,attributes.value))
+        Array.from(newElements.attributes).forEach(attributes => curEl.setAttribute(attributes.name, attributes.value))
       }
     });
   }
 
+  /**
+   * Clears the parent element's content.
+   */
   _clear() {
     this._parentElement.innerHTML = "";
   }
 
+  /**
+   * Renders a loading spinner to the DOM.
+   */
   renderSpinner = function () {
     const markup = `
           <div class="spinner">
@@ -84,6 +70,11 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   };
 
+  /**
+   * Renders an error message to the DOM.
+   * 
+   * @param {string} [message=this._errorMessage] - The error message to render.
+   */
   renderError(message = this._errorMessage) {
     const markup = `<div class="error">
                 <div>
@@ -98,6 +89,11 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
+  /**
+   * Renders a success message to the DOM.
+   * 
+   * @param {string} [message=this._message] - The success message to render.
+   */
   renderMessage(message = this._message) {
     const markup = `
       <div class="message">

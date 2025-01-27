@@ -11,6 +11,12 @@ import { MODAL_CLOSE_SEC } from "./config.js";
 
 const recipeContainer = document.querySelector(".recipe");
 
+/**
+ * Controls the loading and rendering of a recipe.
+ * 
+ * This function is called when the hash in the URL changes, indicating a new recipe ID.
+ * It loads the recipe data, updates the views, and handles any errors that occur.
+ */
 const controlRecipe = async function () {
   try {
     /* Get id when click on hasmap using load hasmap event on window  */
@@ -46,6 +52,12 @@ const controlRecipe = async function () {
   }
 };
 
+/**
+ * Controls the search results.
+ * 
+ * This function is called when a search query is submitted. It loads the search results,
+ * updates the views, and handles any errors that occur.
+ */
 const ControlSearchResults = async function () {
   try {
     /* Render Spinner */
@@ -84,6 +96,11 @@ const ControlPagination = function (gotoPage) {
   paginationView.render(model.state.searchs);
 };
 
+/**
+ * Controls the updating of servings.
+ *
+ * @param {number} newServings - The new number of servings.
+ */
 const controlServings = function (newServings) {
   // Update a serving numbers 
   model.updateServings(newServings);
@@ -93,6 +110,9 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe);
 }
 
+/**
+ * Controls the adding and removing of bookmarks.
+ */
 const controlAddBookmark = function () {
   // Add or Delete Bookmark
   if (!model.state.recipe.bookmarked) {
@@ -108,10 +128,18 @@ const controlAddBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 }
 
+/**
+ * Controls the rendering of bookmarks.
+ */
 const controlBookMark = function () {
   bookmarksView.render(model.state.bookmarks);
 }
 
+/**
+ * Controls the adding of a new recipe.
+ *
+ * @param {Object} newRecipe - The new recipe data.
+ */
 const controlAddRecipe = async function (newRecipe) {
   try {
     // Show loading spinner

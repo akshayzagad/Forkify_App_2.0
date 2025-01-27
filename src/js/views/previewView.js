@@ -4,18 +4,22 @@
  */
 import View from "./View";
 import icons from 'url:../../img/icons.svg';
+
+/**
+ * PreviewView class handles the rendering of individual recipe previews.
+ * It extends the View class.
+ */
 class PreviewView extends View {
   _parentElement = '';
 
-  // _errorMessage = "No recipes yet bookmarked. Please select recipe to bookmarked !";
-
   /**
-   * Generates the markup for the results view.
+   * Generates the markup for the preview view.
    * 
-   * This method maps over the data and generates a markup preview for each item,
-   * then joins them into a single string.
+   * This method constructs the HTML structure for displaying a preview of a recipe,
+   * including the recipe image, title, publisher, and user-generated icon.
+   * It uses the data stored in the `this.data` object to populate the content.
    * 
-   * @retxurns {string} The generated markup as a single string.
+   * @returns {string} The HTML markup for the preview view.
    */
   _genrateMarkup() {
     const id = window.location.hash.slice(1);

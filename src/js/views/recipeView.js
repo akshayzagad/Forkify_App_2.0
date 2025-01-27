@@ -1,6 +1,11 @@
 import icons from "url:../../img/icons.svg";
 import { Fraction } from "fractional";
 import View from "./View.js";
+
+/**
+ * RecipeView class handles the rendering of the recipe details.
+ * It extends the View class.
+ */
 class RecipeView extends View {
   _parentElement = document.querySelector(".recipe");
 
@@ -8,13 +13,21 @@ class RecipeView extends View {
 
   _message = "";
 
-  /** Publisher Function :- Get a input from controller Js to handle the events*/
-
+  /**
+   * Adds an event handler to render the recipe.
+   * 
+   * @param {Function} controlRecipe - The handler function to call on hash change or page load.
+   */
   addHandlerRender(controlRecipe) {
     let events = ['hashchange', 'load']
     events.forEach(ev => window.addEventListener(ev, controlRecipe));
   }
 
+  /**
+   * Adds an event handler to update the servings.
+   * 
+   * @param {Function} handler - The handler function to call on button click.
+   */
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener("click", function (e) {
       const btn = e.target.closest(".btn--tiny");
@@ -25,6 +38,11 @@ class RecipeView extends View {
     });
   }
 
+  /**
+   * Adds an event handler to add or remove bookmarks.
+   * 
+   * @param {Function} handler - The handler function to call on button click.
+   */
   addHandleraddBookmarked(handler){
     this._parentElement.addEventListener("click", function (e) {
       const btn = e.target.closest(".btn--bookmark");

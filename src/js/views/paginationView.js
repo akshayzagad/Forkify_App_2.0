@@ -11,7 +11,12 @@ class PaginationView extends View {
      */
     _parentElement = document.querySelector(".pagination");
 
-
+    /**
+     * Generates the markup for the backward pagination button.
+     * 
+     * @param {number} currentPage - The current page number.
+     * @returns {string} The HTML markup for the backward pagination button.
+     */
     genrateMarkupButtonBackward(currentPage) {
         return `
         <button data-goto="${currentPage - 1}" class="btn--inline pagination__btn--prev">
@@ -23,6 +28,11 @@ class PaginationView extends View {
         `;
     }
 
+    /**
+     * Adds an event handler for pagination button clicks.
+     * 
+     * @param {Function} handler - The handler function to call on button click.
+     */
     addHandlerClick(handler) {
         this._parentElement.addEventListener("click",function(e){
             const btn = e.target.closest(".btn--inline");
@@ -32,6 +42,12 @@ class PaginationView extends View {
         })
     }
 
+    /**
+     * Generates the markup for the forward pagination button.
+     * 
+     * @param {number} currentPage - The current page number.
+     * @returns {string} The HTML markup for the forward pagination button.
+     */
     genrateMarkupButtonForward(currentPage) {
         return `
         <button data-goto="${currentPage + 1}" class="btn--inline pagination__btn--next">
@@ -43,6 +59,14 @@ class PaginationView extends View {
         `;
     }
 
+    /**
+     * Generates the markup for the pagination buttons.
+     * 
+     * This method determines the number of pages and generates the appropriate
+     * pagination buttons based on the current page.
+     * 
+     * @returns {string} The HTML markup for the pagination buttons.
+     */
     _genrateMarkup() {
         const numPages = Math.ceil(this.data.results.length / this.data.resultsPerPage);
         const currentPage = this.data.page;
