@@ -22,6 +22,9 @@ class addRecipeView extends View {
     toggleWindow() {
       this._window.classList.toggle("hidden");
       this._overlay.classList.toggle("hidden");
+      if (this._window.classList.contains("hidden")) {
+         this._parentElement.reset(); // Reset the form fields
+      }
    }
 
    addHandlerShowWindow = function () {

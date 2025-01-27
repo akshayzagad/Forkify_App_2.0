@@ -3,7 +3,7 @@ import icons from "url:../../img/icons.svg";
 export default class View {
   render(data , render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
-      return this.handlingError();
+      return this.renderError();
 
     this.data = data;
 
@@ -15,7 +15,7 @@ export default class View {
 
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
     
-    console.log(data);
+    // console.log(data);
   }
 
   /**
@@ -62,8 +62,8 @@ export default class View {
       /** Below code is intended to update the attributes of the current element (curEl) with the attributes from the new element (newElements). However, newElements is a collection of elements, not a single element, so you need to iterate over each element in newElements and currentElements to update their attributes.
       */
       if (!newElements.isEqualNode(curEl)) {
-        console.log(newElements.attributes);
-        console.log(Array.from(newElements.attributes));
+        // console.log(newElements.attributes);
+        // console.log(Array.from(newElements.attributes));
         Array.from(newElements.attributes).forEach(attributes => curEl.setAttribute(attributes.name,attributes.value))
       }
     });
@@ -84,7 +84,7 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   };
 
-  handlingError(message = this._errorMessage) {
+  renderError(message = this._errorMessage) {
     const markup = `<div class="error">
                 <div>
                   <svg>
@@ -98,18 +98,19 @@ export default class View {
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
-  succsessMessage(message = this._message) {
+  renderMessage(message = this._message) {
     const markup = `
-        <div class="message">
-            <div>
-              <svg>
-                <use href="${icons}.svg#icon-smile"></use>
-              </svg>
-            </div>
-            <p>${message}</p>
-          </div>
-        `;
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
     this._clear();
-    this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 }
+
